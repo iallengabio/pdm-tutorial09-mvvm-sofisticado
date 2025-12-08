@@ -64,6 +64,42 @@ src/
 
 ## 🚀 Como Executar
 
+### 1. Configuração do Firebase
+
+Este projeto utiliza o Firebase para autenticação. Por questões de segurança, o arquivo de configuração `firebase.ts` não está incluído no repositório.
+
+1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/).
+2. Adicione um aplicativo Web ao seu projeto.
+3. Copie as configurações do Firebase (SDK).
+4. Crie o arquivo `src/infra/services/firebase/firebase.ts` e cole o código abaixo, substituindo `firebaseConfig` pelas suas credenciais:
+
+```typescript
+// Import the functions you need from the SDKs you need
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeApp } from "firebase/app";
+// @ts-ignore: getReactNativePersistence exists in the RN bundle 
+// but is often missing from public TypeScript definitions.
+import { getReactNativePersistence, initializeAuth } from 'firebase/auth';
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_PROJETO.firebasestorage.app",
+  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+  appId: "SEU_APP_ID"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
+```
+
+### 2. Instalação e Execução
+
 1. **Instale as dependências:**
    ```bash
    npm install
