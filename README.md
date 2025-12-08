@@ -1,50 +1,95 @@
-# Welcome to your Expo app 👋
+# PDM Tutorial 09 - MVVM Sofisticado com Clean Architecture
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este projeto é um exemplo pedagógico desenvolvido para a disciplina de Programação para Dispositivos Móveis (PDM). O objetivo é demonstrar a implementação de uma arquitetura **MVVM (Model-View-ViewModel)** robusta, inspirada nos princípios da **Clean Architecture**, aplicada ao contexto de desenvolvimento mobile com **React Native** e **Expo**.
 
-## Get started
+## 🎯 Objetivo Educacional
 
-1. Install dependencies
+O foco deste repositório é ensinar como desacoplar a lógica de negócios da interface do usuário (UI), facilitando a testabilidade, manutenção e escalabilidade do código.
 
+Os alunos aprenderão sobre:
+- Separação de responsabilidades.
+- Inversão de Dependência e Injeção de Dependência.
+- Criação de ViewModels para gerenciar o estado da UI.
+- Implementação de Use Cases para regras de negócio.
+- Definição de contratos (Interfaces) para serviços externos.
+
+## 🏗️ Arquitetura do Projeto
+
+O projeto está estruturado nas seguintes camadas:
+
+### 1. View (`src/app`)
+- Responsável apenas pela **renderização da interface** e captura de eventos do usuário.
+- Utiliza **Expo Router** para navegação.
+- **Não contém regras de negócio**.
+- Observa o `ViewModel` para reagir a mudanças de estado.
+
+### 2. ViewModel (`src/viewmodel`)
+- Atua como um intermediário entre a View e a camada de Domínio (UseCases).
+- Gerencia o **estado da tela** (loading, erros, dados).
+- Exponibiliza comandos (funções) para a View interagir.
+- Não depende de frameworks de UI (embora use hooks do React para reatividade neste exemplo).
+
+### 3. Use Case (`src/usecase`)
+- Contém as **regras de negócio da aplicação**.
+- Orquestra o fluxo de dados entre as Entidades e os Serviços.
+- Independente de UI e de implementações concretas de infraestrutura (banco de dados, API).
+
+### 4. Model (`src/model`)
+- **Entities**: Objetos de domínio puro (ex: `User`).
+- **Interfaces (Services)**: Contratos que definem como a aplicação interage com o mundo externo (ex: `IAuthService`).
+- **Errors**: Definições de erros de domínio.
+
+### 5. Infra (`src/infra`)
+- Implementações concretas das interfaces definidas no Model.
+- Exemplo: `FakeAuthService` simula uma API de autenticação.
+
+### 6. Dependency Injection (`src/di`)
+- Configuração centralizada das dependências.
+- Responsável por instanciar os serviços e injetá-los nos Use Cases e ViewModels.
+
+## 📂 Estrutura de Pastas
+
+```
+src/
+├── app/            # Telas e Navegação (View)
+├── viewmodel/      # Lógica de apresentação (ViewModel)
+├── usecase/        # Regras de negócio (Use Cases)
+├── model/          # Entidades e Interfaces (Domain)
+│   ├── entities/
+│   ├── errors/
+│   └── services/
+├── infra/          # Implementações externas (Infrastructure)
+└── di/             # Injeção de Dependência (Dependency Injection)
+```
+
+## 🚀 Como Executar
+
+1. **Instale as dependências:**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+2. **Execute o projeto:**
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. **Teste no dispositivo:**
+   - Utilize o aplicativo **Expo Go** no seu celular para escanear o QR Code.
+   - Ou execute em um emulador Android/iOS.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Tecnologias Utilizadas
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **React Native** com **Expo**
+- **TypeScript**
+- **React Native Paper** (UI Kit)
+- **Expo Router** (Navegação)
 
-## Get a fresh project
+## 📚 Conceitos Chave
 
-When you're ready, run:
+- **MVVM**: O ViewModel expõe dados observáveis e comandos. A View "assina" essas mudanças.
+- **Clean Architecture**: As camadas internas (Model/UseCase) não conhecem as externas (View/Infra). A comunicação é feita através de interfaces (Inversão de Dependência).
+- **Dependency Injection**: As dependências (ex: AuthService) são injetadas, não instanciadas diretamente dentro das classes que as consomem.
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+Desenvolvido para fins educacionais.
