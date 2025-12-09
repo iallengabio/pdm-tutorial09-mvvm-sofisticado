@@ -1,7 +1,12 @@
-import { FirebaseAuthService } from "../infra/services/firebase/firebaseAuthService";
+import { SupabaseUserRepository } from "../infra/repositories/supabaseUserRepository";
+import { SupabaseAuthService } from "../infra/services/supabase/supabaseAuthService";
+import { IUserRepository } from "../model/repositories/iUserRepository";
+import { IAuthService } from "../model/services/iAuthService";
 import { AuthUseCases } from "../usecase/authUseCases";
+import { IAuthUseCases } from "../usecase/iAuthUseCases";
 
-const authService = new FirebaseAuthService();
-const authUseCases = new AuthUseCases(authService);
+let authService : IAuthService = new SupabaseAuthService();
+let userRepository : IUserRepository = new SupabaseUserRepository();
+let authUseCases : IAuthUseCases = new AuthUseCases(authService, userRepository);
 
 export { authUseCases };

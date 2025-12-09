@@ -45,3 +45,5 @@ app-example
 /ios
 /android
 src/infra/services/firebase/firebase.ts
+src/infra/services/firebase2/firebase.ts
+src/infra/services/supabase/supabase.ts

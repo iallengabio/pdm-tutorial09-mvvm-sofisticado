@@ -10,7 +10,7 @@ export type SignupState = {
 };
 
 export type SignupActions = {
-    cadastro: (email: string, password: string, passwordConf: string) => Promise<void>;
+    cadastro: (userName: string, email: string, password: string, passwordConf: string) => Promise<void>;
 };
 
 export default function useSignupViewModel(authUseCases: IAuthUseCases): SignupState & SignupActions {
@@ -26,11 +26,11 @@ export default function useSignupViewModel(authUseCases: IAuthUseCases): SignupS
         }
     });
 
-    async function cadastro(email: string, password: string, passwordConf: string): Promise<void> {
+    async function cadastro(userName: string, email: string, password: string, passwordConf: string): Promise<void> {
         setLoading(true);
         setError(null);
         try {
-            await authUseCases.signup(email, password, passwordConf);
+            await authUseCases.signup(userName,email, password, passwordConf);
             
         }catch(error:any){
             if(error instanceof ValidationError){
